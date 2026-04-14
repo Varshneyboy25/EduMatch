@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduMatch | Analytics Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0b1120; color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+
+    <div class="max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-10">
+            <div>
+                <h1 class="text-3xl font-black tracking-tighter">EDU<span class="text-blue-500">ANALYTICS</span></h1>
+                <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mt-1">Haldwani School Market Insights</p>
+            </div>
+            <a href="table.html" class="bg-slate-800 hover:bg-slate-700 px-6 py-3 rounded-2xl text-xs font-bold transition-all">Back to Directory</a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <div class="glass-card p-8 rounded-[2.5rem] border border-slate-800">
+                <div class="mb-6">
+                    <h2 class="text-xl font-black">Average Annual Fees</h2>
+                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Comparison by School Board</p>
+                </div>
+                <div class="h-[300px]">
+                    <canvas id="feesChart"></canvas>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 rounded-[2.5rem] border border-slate-800">
+                <div class="mb-6">
+                    <h2 class="text-xl font-black">Student Enrollment Avg</h2>
+                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Average Students per Board</p>
+                </div>
+                <div class="h-[300px]">
+                    <canvas id="studentsChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="statsSummary" class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+            </div>
+    </div>
+
+    <script src="schools.js"></script>
+
+    <script>
+        // Data Processing Logic
+        const boards = ["CBSE", "ICSE", "Intl."];
+        
+        const getAverage = (boardName, key) => {
+            const filtered = schoolData.filter(s => s.board === boardName);
+            if (filtered.length === 0) return 0;
+            const sum = filtered.reduce((acc, curr) => acc + curr[key], 0);
+            return Math.round(sum / filtered.length);
+        };
+
+        const avgFeesData = boards.map(b => getAverage(b, 'fees'));
+        const avgStudentsData = boards.map(b => getAverage(b, 'students'));
+
+        // Chart Configurations
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { 
+                    beginAtZero: true, 
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    ticks: { color: '#64748b', font: { weight: 'bold' } }
+                },
+                x: { 
+                    grid: { display: false },
+                    ticks: { color: '#f8fafc', font: { weight: 'bold' } }
+                }
+            }
+        };
+
+        // Render Fees Chart
+        new Chart(document.getElementById('feesChart'), {
+            type: 'bar',
+            data: {
+                labels: boards,
+                datasets: [{
+                    label: 'Avg Fees (₹)',
+                    data: avgFeesData,
+                    backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899'],
+                    borderRadius: 12,
+                    borderSkipped: false,
+                }]
+            },
+            options: chartOptions
+        });
+
+        // Render Students Chart
+        new Chart(document.getElementById('studentsChart'), {
+            type: 'bar',
+            data: {
+                labels: boards,
+                datasets: [{
+                    label: 'Avg Students',
+                    data: avgStudentsData,
+                    backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                    borderRadius: 12,
+                    borderSkipped: false,
+                }]
+            },
+            options: chartOptions
+        });
+
+        // Summary Stats Logic
+        const totalSchools = schoolData.length;
+        const totalStudents = schoolData.reduce((a, b) => a + b.students, 0);
+        
+        document.getElementById('statsSummary').innerHTML = `
+            <div class="glass-card p-6 rounded-3xl border border-slate-800">
+                <p class="text-[9px] font-black text-slate-500 uppercase mb-1">Total Schools</p>
+                <p class="text-2xl font-black text-blue-500">${totalSchools}</p>
+            </div>
+            <div class="glass-card p-6 rounded-3xl border border-slate-800">
+                <p class="text-[9px] font-black text-slate-500 uppercase mb-1">Total Students</p>
+                <p class="text-2xl font-black text-emerald-500">${totalStudents.toLocaleString()}+</p>
+            </div>
+        `;
+    </script>
+</body>
+</html>

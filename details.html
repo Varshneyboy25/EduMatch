@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduMatch | School Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0b1120; color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .neon-text { color: #4ade80; text-shadow: 0 0 10px rgba(74, 222, 128, 0.3); }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+
+    <div class="max-w-4xl mx-auto">
+        <a href="table.html" class="inline-flex items-center gap-2 text-slate-400 hover:text-white mb-8 transition-colors font-bold text-sm uppercase tracking-widest">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Back to List
+        </a>
+
+        <div id="detailsContent">
+            <p class="text-center text-slate-500">Loading school details...</p>
+        </div>
+    </div>
+
+    <script src="schools.js"></script>
+    <script>
+        // 1. URL se ID nikalna (e.g., ?id=51)
+        const urlParams = new URLSearchParams(window.location.search);
+        const schoolId = parseInt(urlParams.get('id'));
+
+        // 2. schoolData array mein se wo school dhundna
+        const school = schoolData.find(s => s.id === schoolId);
+
+        const container = document.getElementById('detailsContent');
+
+        if (school) {
+            container.innerHTML = `
+                <div class="glass-card p-8 md:p-12 rounded-[3rem] shadow-2xl border border-slate-800">
+                    <div class="flex flex-col md:flex-row justify-between items-start gap-6 mb-10">
+                        <div>
+                            <span class="bg-blue-600/20 text-blue-400 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-500/20">
+                                ${school.board} Board
+                            </span>
+                            <h1 class="text-4xl md:text-6xl font-black mt-4 leading-tight">${school.name}</h1>
+                            <p class="text-slate-400 mt-2 font-bold uppercase tracking-tighter text-sm">Principal: ${school.principal}</p>
+                        </div>
+                        <div class="text-left md:text-right">
+                            <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Annual Fees</p>
+                            <p class="text-4xl font-black neon-text italic">₹${school.fees.toLocaleString()}</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+                        <div class="bg-slate-900/50 p-6 rounded-3xl border border-slate-800">
+                            <p class="text-[9px] font-black text-slate-500 uppercase mb-2">Students</p>
+                            <p class="text-2xl font-black">${school.students}+</p>
+                        </div>
+                        <div class="bg-slate-900/50 p-6 rounded-3xl border border-slate-800">
+                            <p class="text-[9px] font-black text-slate-500 uppercase mb-2">Teachers</p>
+                            <p class="text-2xl font-black">${school.teachers}</p>
+                        </div>
+                        <div class="bg-slate-900/50 p-6 rounded-3xl border border-slate-800">
+                            <p class="text-[9px] font-black text-slate-500 uppercase mb-2">Rating</p>
+                            <p class="text-2xl font-black text-amber-500">⭐ ${school.rating}</p>
+                        </div>
+                        <div class="bg-slate-900/50 p-6 rounded-3xl border border-slate-800">
+                            <p class="text-[9px] font-black text-slate-500 uppercase mb-2">ID NO.</p>
+                            <p class="text-2xl font-black">#${school.id}</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">🏆 Major Achievement</h3>
+                            <p class="text-xl font-bold italic text-blue-400">"${school.trophy}"</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">🏫 Available Facilities</h3>
+                            <div class="flex flex-wrap gap-3">
+                                ${school.facilities.map(f => `
+                                    <span class="bg-slate-800 text-white px-5 py-2.5 rounded-2xl text-[11px] font-bold border border-slate-700">
+                                        ${f}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="w-full mt-12 bg-white text-black py-5 rounded-3xl font-black text-xs uppercase tracking-[0.2em] hover:bg-blue-500 hover:text-white transition-all">
+                        Contact School Office
+                    </button>
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="text-center p-20 glass-card rounded-[3rem]">
+                    <h2 class="text-2xl font-black text-red-500 mb-4">School Not Found</h2>
+                    <p class="text-slate-400">Sorry, the school with ID ${schoolId} was not found in EduMatch database.</p>
+                    <a href="table.html" class="mt-6 inline-block text-blue-500 font-bold underline">Go Back</a>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

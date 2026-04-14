@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduMatch | Find Your Perfect School</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Table jaisa dark theme */
+        body { 
+            background-color: #0b1120; 
+            color: #ffffff; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+        }
+        .glass-card { 
+            background: rgba(30, 41, 59, 0.7); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+        }
+        .input-dark { 
+            background: #1e293b; 
+            border: 1px solid #334155; 
+            color: white; 
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at top, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+        }
+    </style>
+</head>
+<body class="min-h-screen hero-gradient">
+
+    <nav class="p-6 flex justify-between items-center max-w-7xl mx-auto">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 p-2 rounded-xl text-white font-black text-xl shadow-lg shadow-blue-900/40">E</div>
+            <h1 class="text-2xl font-black italic tracking-tighter uppercase tracking-widest">EduMatch</h1>
+        </div>
+        <a href="table.html" class="bg-slate-800 text-white px-5 py-2.5 rounded-xl text-[10px] font-black border border-slate-700 uppercase tracking-widest hover:bg-blue-600 transition-all">
+            View Master Table
+        </a>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 pt-20 pb-20 text-center">
+        
+        <div class="mb-12">
+            <h2 class="text-5xl md:text-7xl font-black leading-tight tracking-tighter">
+                Find the best school <br> 
+                <span class="text-blue-500 italic">within your budget, easily.</span>
+            </h2>
+            <p class="text-slate-400 mt-6 text-lg font-medium">Helping parents in Haldwani make the right choice for their child's future.</p>
+        </div>
+
+        <div class="glass-card p-10 rounded-[3rem] shadow-2xl border border-slate-800/50 text-left max-w-2xl mx-auto">
+            <div class="space-y-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Country</label>
+                        <div class="input-dark px-5 py-4 rounded-2xl font-bold opacity-60">India</div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">City</label>
+                        <div class="input-dark px-5 py-4 rounded-2xl font-bold opacity-60">Haldwani</div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Area Pincode</label>
+                    <input type="text" placeholder="263139" class="input-dark w-full px-5 py-4 rounded-2xl font-bold focus:ring-2 focus:ring-blue-500/50 outline-none transition-all">
+                </div>
+
+                <button onclick="window.location.href='table.html'" class="w-full bg-blue-600 hover:bg-blue-700 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-blue-900/40 transition-all active:scale-95">
+                    Search Now
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-16 flex justify-center gap-12 text-[10px] font-black uppercase tracking-widest text-slate-500">
+            <div class="flex flex-col gap-1">
+                <span class="text-white text-2xl font-black">50+</span>
+                <span>Schools</span>
+            </div>
+            <div class="flex flex-col gap-1">
+                <span class="text-white text-2xl font-black">10k+</span>
+                <span>Students</span>
+            </div>
+            <div class="flex flex-col gap-1">
+                <span class="text-white text-2xl font-black">Verified</span>
+                <span>Data</span>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
