@@ -12,77 +12,59 @@
         .neon-green { color: #4ade80; text-shadow: 0 0 10px rgba(74, 222, 128, 0.2); }
         .input-dark { background: #1e293b; border: 1px solid #334155; color: white; transition: all 0.3s ease; }
         .input-dark:focus { border-color: #2563eb; box-shadow: 0 0 15px rgba(37, 99, 235, 0.2); outline: none; }
-        .custom-scroll::-webkit-scrollbar { height: 5px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="p-6 md:p-12">
 
     <div class="max-w-7xl mx-auto">
-        <div class="flex justify-between items-center mb-8">
-            <div class="flex items-center gap-4">
-                <a href="index.html" class="bg-slate-800 p-3 rounded-2xl border border-slate-700 hover:bg-blue-600 transition-all group">
-                    <svg class="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                    </svg>
-                </a>
-                <div>
-                    <div class="flex items-center gap-2">
-                        <div class="bg-blue-600 px-2 py-0.5 rounded text-white font-black text-sm">E</div>
-                        <h2 class="text-2xl font-black italic tracking-tighter uppercase">EduMatch</h2>
-                    </div>
-                    <p class="text-[9px] font-bold text-blue-500 tracking-[0.2em] uppercase mt-1">Budget Friendly School Finder</p>
-                </div>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+            <div>
+                <h1 class="text-4xl font-black tracking-tighter italic">EDU<span class="text-blue-500">MATCH</span></h1>
+                <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mt-1">Haldwani School Market Master-Table</p>
             </div>
-            <div class="flex gap-3">
-                <a href="analytics.html" class="bg-blue-600 text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/20">
-                    View Analytics
-                </a>
-                <button class="bg-slate-800/50 text-white px-5 py-2.5 rounded-xl text-[10px] font-black border border-slate-700 uppercase tracking-widest">
-                    Download PDF
-                </button>
+            
+            <div class="flex gap-4">
+                <a href="index.html" class="px-6 py-3 rounded-2xl bg-slate-800 text-xs font-black uppercase tracking-widest hover:bg-slate-700 transition-all">Home</a>
+                <a href="analytics.html" class="px-6 py-3 rounded-2xl bg-blue-600 text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/20">Analytics</a>
             </div>
         </div>
 
-        <div class="glass-card p-8 rounded-[2.5rem] mb-10 border border-slate-800 shadow-2xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="glass-card p-8 rounded-[2.5rem] mb-10 border border-slate-800">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3">Search School</label>
-                    <input type="text" id="nameSearch" onkeyup="filterData()" placeholder="Enter school name..." class="input-dark w-full px-5 py-4 rounded-2xl font-bold">
+                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Search School</label>
+                    <input type="text" id="nameSearch" oninput="filterData()" placeholder="e.g. Aryaman Birla" class="input-dark w-full px-6 py-4 rounded-2xl font-bold">
                 </div>
-
                 <div>
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3">Filter by Board</label>
-                    <select id="boardFilter" onchange="filterData()" class="input-dark w-full px-5 py-4 rounded-2xl font-bold appearance-none cursor-pointer">
+                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Board</label>
+                    <select id="boardFilter" onchange="filterData()" class="input-dark w-full px-6 py-4 rounded-2xl font-bold appearance-none">
                         <option value="all">All Boards</option>
                         <option value="CBSE">CBSE</option>
                         <option value="ICSE">ICSE</option>
-                        <option value="OTHER">Other Board</option>
+                        <option value="STATE">State Board</option>
                     </select>
                 </div>
-
                 <div>
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3">Annual Budget (Max)</label>
-                    <input type="number" id="budgetFilter" onkeyup="filterData()" placeholder="e.g. 80000" class="input-dark w-full px-5 py-4 rounded-2xl font-bold">
+                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3">Max Annual Budget</label>
+                    <input type="number" id="budgetFilter" oninput="filterData()" placeholder="e.g. 100000" class="input-dark w-full px-6 py-4 rounded-2xl font-bold">
                 </div>
             </div>
         </div>
 
-        <div class="glass-card rounded-[2.5rem] overflow-hidden border border-slate-800 shadow-2xl">
-            <div class="overflow-x-auto custom-scroll">
-                <table class="w-full text-left">
+        <div class="glass-card rounded-[2.5rem] overflow-hidden border border-slate-800">
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
                     <thead>
-                        <tr class="border-b border-slate-800 bg-slate-900/60">
-                            <th class="p-6 text-[9px] font-black text-slate-500 uppercase tracking-widest">No.</th>
-                            <th class="p-6 text-[9px] font-black text-slate-500 uppercase tracking-widest">School & Principal</th>
-                            <th class="p-6 text-[9px] font-black text-slate-500 uppercase tracking-widest">Stats (T/S)</th>
-                            <th class="p-6 text-[9px] font-black text-slate-500 uppercase tracking-widest">Facilities</th>
-                            <th class="p-6 text-[9px] font-black text-slate-500 uppercase tracking-widest">Achievement</th>
-                            <th class="p-6 text-[9px] font-black text-slate-500 uppercase tracking-widest text-right">Annual Fees</th>
+                        <tr class="bg-slate-800/50">
+                            <th class="p-6 text-left text-[10px] font-black text-slate-500 uppercase tracking-widest">No. & School Name</th>
+                            <th class="p-6 text-left text-[10px] font-black text-slate-500 uppercase tracking-widest">Board</th>
+                            <th class="p-6 text-left text-[10px] font-black text-slate-500 uppercase tracking-widest">Top Facilities</th>
+                            <th class="p-6 text-left text-[10px] font-black text-slate-500 uppercase tracking-widest">Monthly Fees</th>
+                            <th class="p-6 text-left text-[10px] font-black text-slate-500 uppercase tracking-widest">Awards</th>
+                            <th class="p-6 text-right text-[10px] font-black text-slate-500 uppercase tracking-widest">Annual Total</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody">
-                        </tbody>
+                    <tbody id="tableBody"></tbody>
                 </table>
             </div>
         </div>
@@ -90,45 +72,44 @@
 
     <script src="schools.js"></script>
     <script>
-        const tableBody = document.getElementById('tableBody');
-
         function renderTable(data) {
-            if (data.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="6" class="p-10 text-center text-slate-500 font-bold italic">No results found for EduMatch search.</td></tr>`;
-                return;
-            }
-            tableBody.innerHTML = data.map((s, index) => `
-                <tr class="border-b border-slate-800/40 hover:bg-blue-600/5 group">
-                    <td class="p-6 text-slate-600 font-black text-xs">${String(index + 1).padStart(2, '0')}</td>
-                    
-                    <td class="p-6 cursor-pointer" onclick="window.location.href='details.html?id=${s.id}'">
-                        <p class="font-extrabold text-white text-base mb-0.5 group-hover:text-blue-400 transition-all">${s.name}</p>
-                        <p class="text-[10px] font-bold text-blue-500/80 uppercase">Principal: ${s.principal || 'N/A'}</p>
-                        <div class="mt-2 flex items-center gap-2 text-[9px] font-black">
-                             <span class="text-amber-500">⭐ ${s.rating}</span>
-                             <span class="text-slate-500">| ${s.board} Board</span>
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = data.map((s, index) => `
+                <tr class="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors group cursor-pointer" onclick="window.location.href='details.html?id=${s.id}'">
+                    <td class="p-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-slate-800 border border-slate-700 rounded-xl flex items-center justify-center font-black text-sm text-slate-400">
+                                ${index + 1}
+                            </div>
+                            <div>
+                                <p class="font-black text-slate-200 group-hover:text-blue-400 transition-colors">${s.name}</p>
+                                </div>
                         </div>
                     </td>
 
                     <td class="p-6">
-                        <div class="flex flex-col gap-1 text-[11px] font-bold text-slate-400">
-                            <span>T: <b class="text-white">${s.teachers || '0'}</b></span>
-                            <span>S: <b class="text-white">${s.students || '0'}</b></span>
-                        </div>
+                        <span class="px-4 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-[10px] font-black text-blue-400 uppercase tracking-widest">
+                            ${s.board}
+                        </span>
                     </td>
 
                     <td class="p-6">
-                        <div class="flex flex-wrap gap-1.5 max-w-[130px]">
-                            ${(s.facilities || ['Library', 'Lab']).map(f => `
-                                <span class="text-[8px] font-black bg-slate-800 text-slate-400 px-2 py-0.5 rounded uppercase border border-slate-700">${f}</span>
+                        <div class="flex flex-wrap gap-2">
+                            ${s.facilities.slice(0, 2).map(f => `
+                                <span class="text-[9px] font-bold text-slate-400 bg-slate-800/50 px-2 py-1 rounded-md border border-slate-700/50">${f}</span>
                             `).join('')}
                         </div>
                     </td>
 
                     <td class="p-6">
+                        <p class="text-sm font-bold text-slate-300">₹${Math.round(s.fees / 12).toLocaleString()}</p>
+                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-0.5 italic">Est. Monthly</p>
+                    </td>
+
+                    <td class="p-6">
                         <div class="flex items-center gap-2">
                             <span class="text-lg">🏆</span>
-                            <p class="text-[10px] font-bold text-green-500 italic leading-tight uppercase tracking-tighter">${s.trophy || 'EduMatch Verified'}</p>
+                            <p class="text-[10px] font-bold text-green-500 italic uppercase tracking-tighter">${s.trophy || 'Verified'}</p>
                         </div>
                     </td>
 

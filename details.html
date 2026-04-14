@@ -16,68 +16,60 @@
 
     <div class="max-w-4xl mx-auto">
         <a href="table.html" class="inline-flex items-center gap-2 text-slate-400 hover:text-white mb-8 transition-colors font-bold text-sm uppercase tracking-widest">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            Back to List
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            Back to Directory
         </a>
 
-        <div id="detailsContent">
-            <p class="text-center text-slate-500">Loading school details...</p>
-        </div>
+        <div id="detailContainer">
+            </div>
     </div>
 
     <script src="schools.js"></script>
     <script>
-        // 1. URL se ID nikalna (e.g., ?id=51)
         const urlParams = new URLSearchParams(window.location.search);
         const schoolId = parseInt(urlParams.get('id'));
-
-        // 2. schoolData array mein se wo school dhundna
         const school = schoolData.find(s => s.id === schoolId);
 
-        const container = document.getElementById('detailsContent');
+        const container = document.getElementById('detailContainer');
 
         if (school) {
             container.innerHTML = `
-                <div class="glass-card p-8 md:p-12 rounded-[3rem] shadow-2xl border border-slate-800">
-                    <div class="flex flex-col md:flex-row justify-between items-start gap-6 mb-10">
+                <div class="glass-card p-10 md:p-16 rounded-[3rem] border border-slate-800 shadow-2xl">
+                    <div class="flex flex-col md:flex-row justify-between items-start gap-8 mb-12">
                         <div>
-                            <span class="bg-blue-600/20 text-blue-400 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-500/20">
-                                ${school.board} Board
+                            <span class="px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-[10px] font-black text-blue-400 uppercase tracking-[0.2em]">
+                                ${school.board} Affiliated
                             </span>
-                            <h1 class="text-4xl md:text-6xl font-black mt-4 leading-tight">${school.name}</h1>
-                            <p class="text-slate-400 mt-2 font-bold uppercase tracking-tighter text-sm">Principal: ${school.principal}</p>
+                            <h1 class="text-5xl font-black tracking-tighter mt-4 italic">${school.name}</h1>
+                            <p class="text-slate-500 font-bold mt-2 uppercase tracking-widest text-xs">Haldwani, Uttarakhand</p>
                         </div>
-                        <div class="text-left md:text-right">
+                        <div class="text-right">
                             <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Annual Fees</p>
-                            <p class="text-4xl font-black neon-text italic">₹${school.fees.toLocaleString()}</p>
+                            <p class="text-4xl font-black neon-text italic italic tracking-tighter">₹${school.fees.toLocaleString()}</p>
+                            <p class="text-[10px] font-bold text-slate-500 mt-1 italic">₹${Math.round(school.fees/12).toLocaleString()} / month est.</p>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
-                        <div class="bg-slate-900/50 p-6 rounded-3xl border border-slate-800">
-                            <p class="text-[9px] font-black text-slate-500 uppercase mb-2">Students</p>
-                            <p class="text-2xl font-black">${school.students}+</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+                        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50">
+                            <p class="text-[9px] font-black text-slate-500 uppercase mb-1">Students</p>
+                            <p class="text-xl font-black">${school.students}+</p>
                         </div>
-                        <div class="bg-slate-900/50 p-6 rounded-3xl border border-slate-800">
-                            <p class="text-[9px] font-black text-slate-500 uppercase mb-2">Teachers</p>
-                            <p class="text-2xl font-black">${school.teachers}</p>
+                        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50">
+                            <p class="text-[9px] font-black text-slate-500 uppercase mb-1">Teachers</p>
+                            <p class="text-xl font-black">${school.teachers}</p>
                         </div>
-                        <div class="bg-slate-900/50 p-6 rounded-3xl border border-slate-800">
-                            <p class="text-[9px] font-black text-slate-500 uppercase mb-2">Rating</p>
-                            <p class="text-2xl font-black text-amber-500">⭐ ${school.rating}</p>
+                        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50">
+                            <p class="text-[9px] font-black text-slate-500 uppercase mb-1">Rating</p>
+                            <p class="text-xl font-black text-yellow-500">${school.rating} / 5.0</p>
                         </div>
-                        <div class="bg-slate-900/50 p-6 rounded-3xl border border-slate-800">
-                            <p class="text-[9px] font-black text-slate-500 uppercase mb-2">ID NO.</p>
-                            <p class="text-2xl font-black">#${school.id}</p>
+                        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50">
+                            <p class="text-[9px] font-black text-slate-500 uppercase mb-1">Award</p>
+                            <p class="text-[11px] font-black text-emerald-400 uppercase italic leading-tight">${school.trophy || 'Verified'}</p>
                         </div>
                     </div>
 
-                    <div class="space-y-8">
-                        <div>
-                            <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">🏆 Major Achievement</h3>
-                            <p class="text-xl font-bold italic text-blue-400">"${school.trophy}"</p>
-                        </div>
-
+                    <div class="space-y-10">
                         <div>
                             <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">🏫 Available Facilities</h3>
                             <div class="flex flex-wrap gap-3">
@@ -99,7 +91,7 @@
             container.innerHTML = `
                 <div class="text-center p-20 glass-card rounded-[3rem]">
                     <h2 class="text-2xl font-black text-red-500 mb-4">School Not Found</h2>
-                    <p class="text-slate-400">Sorry, the school with ID ${schoolId} was not found in EduMatch database.</p>
+                    <p class="text-slate-400">Sorry, the school with ID ${schoolId} was not found.</p>
                     <a href="table.html" class="mt-6 inline-block text-blue-500 font-bold underline">Go Back</a>
                 </div>
             `;
