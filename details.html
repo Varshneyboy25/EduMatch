@@ -10,6 +10,8 @@
         body { background-color: #0b1120; color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; }
         .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .neon-text { color: #4ade80; text-shadow: 0 0 10px rgba(74, 222, 128, 0.3); }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 50; }
+        .input-field { background: #1e293b; border: 1px solid #334155; color: white; width: 100%; padding: 1rem; border-radius: 1rem; margin-top: 0.5rem; outline: none; }
     </style>
 </head>
 <body class="p-6 md:p-12">
@@ -19,9 +21,26 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
             Back to Directory
         </a>
+        <div id="detailContainer"></div>
+    </div>
 
-        <div id="detailContainer">
-            </div>
+    <div id="enquiryModal" class="modal-overlay items-center justify-center p-4">
+        <div class="glass-card w-full max-w-md p-8 rounded-[2.5rem] border border-slate-700 relative">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-500 hover:text-white font-bold">✕</button>
+            <h2 class="text-2xl font-black mb-1 italic">Enquiry Form</h2>
+            <p id="modalSchoolName" class="text-blue-500 text-xs font-bold uppercase tracking-widest mb-6"></p>
+            <form onsubmit="handleFormSubmit(event)">
+                <div class="mb-4">
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Parent Name</label>
+                    <input type="text" id="pName" required class="input-field" placeholder="Full Name">
+                </div>
+                <div class="mb-4">
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Phone Number</label>
+                    <input type="tel" id="pPhone" required class="input-field" placeholder="+91">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all">Submit Enquiry</button>
+            </form>
+        </div>
     </div>
 
     <script src="schools.js"></script>
@@ -29,43 +48,35 @@
         const urlParams = new URLSearchParams(window.location.search);
         const schoolId = parseInt(urlParams.get('id'));
         const school = schoolData.find(s => s.id === schoolId);
-
-        const container = document.getElementById('detailContainer');
+        const schoolIndex = schoolData.findIndex(s => s.id === schoolId) + 1;
 
         if (school) {
-            container.innerHTML = `
+            document.getElementById('detailContainer').innerHTML = `
                 <div class="glass-card p-10 md:p-16 rounded-[3rem] border border-slate-800 shadow-2xl">
                     <div class="flex flex-col md:flex-row justify-between items-start gap-8 mb-12">
                         <div>
-                            <span class="px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-[10px] font-black text-blue-400 uppercase tracking-[0.2em]">
-                                ${school.board} Affiliated
-                            </span>
-                            <h1 class="text-5xl font-black tracking-tighter mt-4 italic">${school.name}</h1>
+                            <span class="px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-[10px] font-black text-blue-400 uppercase tracking-widest">${school.board} Affiliated</span>
+                            <div class="flex items-center gap-4 mt-4">
+                                <div class="w-12 h-12 bg-slate-800 border border-slate-700 rounded-2xl flex items-center justify-center font-black text-lg text-slate-400">${schoolIndex}</div>
+                                <h1 class="text-4xl md:text-5xl font-black tracking-tighter italic">${school.name}</h1>
+                            </div>
                             <p class="text-slate-500 font-bold mt-2 uppercase tracking-widest text-xs">Haldwani, Uttarakhand</p>
                         </div>
-                        <div class="text-right">
+                        <div class="md:text-right">
                             <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Annual Fees</p>
-                            <p class="text-4xl font-black neon-text italic italic tracking-tighter">₹${school.fees.toLocaleString()}</p>
-                            <p class="text-[10px] font-bold text-slate-500 mt-1 italic">₹${Math.round(school.fees/12).toLocaleString()} / month est.</p>
+                            <p class="text-4xl font-black neon-text italic tracking-tighter">₹${school.fees.toLocaleString()}</p>
+                            <p class="text-[10px] font-bold text-slate-500 mt-1 italic uppercase">₹${Math.round(school.fees/12).toLocaleString()} / month est.</p>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-                        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50">
+                        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50 text-center">
                             <p class="text-[9px] font-black text-slate-500 uppercase mb-1">Students</p>
                             <p class="text-xl font-black">${school.students}+</p>
                         </div>
-                        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50">
-                            <p class="text-[9px] font-black text-slate-500 uppercase mb-1">Teachers</p>
-                            <p class="text-xl font-black">${school.teachers}</p>
-                        </div>
-                        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50">
+                        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50 text-center">
                             <p class="text-[9px] font-black text-slate-500 uppercase mb-1">Rating</p>
-                            <p class="text-xl font-black text-yellow-500">${school.rating} / 5.0</p>
-                        </div>
-                        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50">
-                            <p class="text-[9px] font-black text-slate-500 uppercase mb-1">Award</p>
-                            <p class="text-[11px] font-black text-emerald-400 uppercase italic leading-tight">${school.trophy || 'Verified'}</p>
+                            <p class="text-xl font-black text-yellow-500">${school.rating} / 5</p>
                         </div>
                     </div>
 
@@ -73,29 +84,19 @@
                         <div>
                             <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">🏫 Available Facilities</h3>
                             <div class="flex flex-wrap gap-3">
-                                ${school.facilities.map(f => `
-                                    <span class="bg-slate-800 text-white px-5 py-2.5 rounded-2xl text-[11px] font-bold border border-slate-700">
-                                        ${f}
-                                    </span>
-                                `).join('')}
+                                ${school.facilities.map(f => `<span class="bg-slate-800 text-white px-5 py-2.5 rounded-2xl text-[11px] font-bold border border-slate-700">${f}</span>`).join('')}
                             </div>
                         </div>
                     </div>
 
-                    <button class="w-full mt-12 bg-white text-black py-5 rounded-3xl font-black text-xs uppercase tracking-[0.2em] hover:bg-blue-500 hover:text-white transition-all">
-                        Contact School Office
-                    </button>
-                </div>
-            `;
-        } else {
-            container.innerHTML = `
-                <div class="text-center p-20 glass-card rounded-[3rem]">
-                    <h2 class="text-2xl font-black text-red-500 mb-4">School Not Found</h2>
-                    <p class="text-slate-400">Sorry, the school with ID ${schoolId} was not found.</p>
-                    <a href="table.html" class="mt-6 inline-block text-blue-500 font-bold underline">Go Back</a>
+                    <button onclick="openModal('${school.name}')" class="w-full mt-12 bg-white text-black py-5 rounded-3xl font-black text-xs uppercase tracking-[0.2em] hover:bg-blue-600 hover:text-white transition-all shadow-xl">Contact School Office</button>
                 </div>
             `;
         }
+        function openModal(n) { document.getElementById('enquiryModal').style.display='flex'; document.getElementById('modalSchoolName').innerText="Enquiry for " + n; }
+        function closeModal() { document.getElementById('enquiryModal').style.display='none'; }
+        function handleFormSubmit(e) { e.preventDefault(); alert("Enquiry sent for " + school.name); closeModal(); }
+        window.onclick = function(event) { if (event.target == document.getElementById('enquiryModal')) closeModal(); }
     </script>
 </body>
 </html>

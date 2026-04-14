@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduMatch | Combined Comparison</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0b1120; color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+
+    <div class="max-w-5xl mx-auto">
+        <div class="flex justify-between items-center mb-10">
+            <h1 class="text-3xl font-black tracking-tighter italic text-emerald-500">SMART <span class="text-white">COMPARE</span></h1>
+            <a href="table.html" class="px-6 py-3 rounded-2xl bg-slate-800 text-[10px] font-black uppercase tracking-widest hover:bg-slate-700 transition-all">Close Comparison</a>
+        </div>
+
+        <div class="glass-card p-8 rounded-[3rem] border border-slate-800 mb-12">
+            <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-8 text-center">Fees vs Rating Analysis</h3>
+            <canvas id="combinedChart" style="max-height: 400px;"></canvas>
+        </div>
+
+        <div id="schoolList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </div>
+
+    <script src="schools.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const ids = urlParams.get('ids').split(',').map(Number);
+        const selectedSchools = schoolData.filter(s => ids.includes(s.id));
+
+        const names = selectedSchools.map(s => s.name);
+        const fees = selectedSchools.map(s => s.fees);
+        const ratings = selectedSchools.map(s => s.rating);
+
+        new Chart(document.getElementById('combinedChart'), {
+            type: 'bar',
+            data: {
+                labels: names,
+                datasets: [
+                    {
+                        label: 'Annual Fees (₹)',
+                        data: fees,
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 10,
+                        yAxisID: 'yFees',
+                    },
+                    {
+                        label: 'Rating (0-5)',
+                        data: ratings,
+                        backgroundColor: '#f59e0b',
+                        borderRadius: 10,
+                        yAxisID: 'yRating',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    yFees: {
+                        type: 'linear',
+                        position: 'left',
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#3b82f6', font: { weight: 'bold' } }
+                    },
+                    yRating: {
+                        type: 'linear',
+                        position: 'right',
+                        max: 5,
+                        grid: { display: false },
+                        ticks: { color: '#f59e0b', font: { weight: 'bold' } }
+                    },
+                    x: { ticks: { color: '#ffffff', font: { weight: 'bold' } } }
+                },
+                plugins: {
+                    legend: { labels: { color: '#ffffff', font: { weight: 'bold' } } }
+                }
+            }
+        });
+
+        document.getElementById('schoolList').innerHTML = selectedSchools.map(s => `
+            <div class="glass-card p-6 rounded-2xl border border-slate-800 flex justify-between items-center">
+                <p class="font-black italic text-slate-200">${s.name}</p>
+                <p class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">₹${s.fees.toLocaleString()}</p>
+            </div>
+        `).join('');
+    </script>
+</body>
+</html>
