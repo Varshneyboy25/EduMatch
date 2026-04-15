@@ -3,43 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduMatch | School Details</title>
+    <title>School Details | EduMatch</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body { background-color: #0b1120; color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; }
         .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .neon-text { color: #4ade80; text-shadow: 0 0 10px rgba(74, 222, 128, 0.3); }
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 50; }
-        .input-field { background: #1e293b; border: 1px solid #334155; color: white; width: 100%; padding: 1rem; border-radius: 1rem; margin-top: 0.5rem; outline: none; }
+        input, select { transition: all 0.3s ease; }
+        input:focus, select:focus { border-color: #3b82f6 !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
     </style>
 </head>
 <body class="p-6 md:p-12">
 
     <div class="max-w-4xl mx-auto">
-        <a href="table.html" class="inline-flex items-center gap-2 text-slate-400 hover:text-white mb-8 transition-colors font-bold text-sm uppercase tracking-widest">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <a href="table.html" class="inline-flex items-center gap-2 text-slate-500 hover:text-white mb-8 font-bold text-xs uppercase tracking-[0.2em] transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7 7-7"/></svg>
             Back to Directory
         </a>
-        <div id="detailContainer"></div>
+
+        <div id="schoolDetails"></div>
+
+        <div class="glass-card p-10 rounded-[3rem] border border-slate-800 mt-12 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-2 h-full bg-blue-600"></div>
+            <div class="mb-10">
+                <h3 class="text-3xl font-black italic mb-2 uppercase tracking-tighter">Fast <span class="text-blue-500">Registration</span></h3>
+                <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.3em]">Haldwani Admission Portal 2026</p>
+            </div>
+            
+            <form id="enquiryForm" action="https://formspree.io/f/mpqkqwey" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <input type="hidden" name="Target_School" id="hiddenSchoolName">
+                
+                <div class="space-y-3">
+                    <label class="text-[10px] font-black text-slate-500 uppercase ml-2 tracking-widest">Parent's Full Name</label>
+                    <input type="text" name="Parent_Name" placeholder="e.g. Rajesh Kumar" class="w-full bg-slate-900/50 border border-slate-700 rounded-2xl px-6 py-4 text-white outline-none font-bold" required>
+                </div>
+
+                <div class="space-y-3">
+                    <label class="text-[10px] font-black text-slate-500 uppercase ml-2 tracking-widest">Phone Number</label>
+                    <input type="tel" name="Mobile_No" placeholder="Enter 10 digit number" class="w-full bg-slate-900/50 border border-slate-700 rounded-2xl px-6 py-4 text-white outline-none font-bold" required>
+                </div>
+
+                <div class="md:col-span-2 space-y-3">
+                    <label class="text-[10px] font-black text-slate-500 uppercase ml-2 tracking-widest">Applying for Grade</label>
+                    <select name="Admission_Grade" class="w-full bg-slate-900/50 border border-slate-700 rounded-2xl px-6 py-4 text-white outline-none font-bold cursor-pointer appearance-none">
+                        <option>Nursery / KG</option>
+                        <option>Class 1 - 5</option>
+                        <option>Class 6 - 10</option>
+                        <option>Class 11 - 12 (Science/Comm/Arts)</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="submitBtn" class="md:col-span-2 bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-2xl transition-all shadow-xl shadow-blue-900/30 uppercase tracking-[0.2em] text-xs active:scale-95">
+                    Confirm Admission Interest 🚀
+                </button>
+            </form>
+        </div>
     </div>
 
-    <div id="enquiryModal" class="modal-overlay items-center justify-center p-4">
-        <div class="glass-card w-full max-w-md p-8 rounded-[2.5rem] border border-slate-700 relative">
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-500 hover:text-white font-bold">✕</button>
-            <h2 class="text-2xl font-black mb-1 italic">Enquiry Form</h2>
-            <p id="modalSchoolName" class="text-blue-500 text-xs font-bold uppercase tracking-widest mb-6"></p>
-            <form onsubmit="handleFormSubmit(event)">
-                <div class="mb-4">
-                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Parent Name</label>
-                    <input type="text" id="pName" required class="input-field" placeholder="Full Name">
-                </div>
-                <div class="mb-4">
-                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Phone Number</label>
-                    <input type="tel" id="pPhone" required class="input-field" placeholder="+91">
-                </div>
-                <button type="submit" class="w-full bg-blue-600 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all">Submit Enquiry</button>
-            </form>
+    <div id="successModal" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/95 backdrop-blur-sm p-6">
+        <div class="glass-card p-12 rounded-[4rem] border border-blue-500/30 text-center max-w-sm w-full animate-in zoom-in duration-300">
+            <div class="text-7xl mb-6">🎊</div>
+            <h2 class="text-3xl font-black italic mb-3 uppercase tracking-tighter">SUCCESS!</h2>
+            <p id="successTxt" class="text-slate-400 text-sm mb-8 leading-relaxed font-medium"></p>
+            <button onclick="closeModal()" class="w-full bg-white text-black font-black py-4 rounded-2xl uppercase text-xs tracking-[0.2em] hover:bg-blue-600 hover:text-white transition-all">Back to List</button>
         </div>
     </div>
 
@@ -48,55 +75,66 @@
         const urlParams = new URLSearchParams(window.location.search);
         const schoolId = parseInt(urlParams.get('id'));
         const school = schoolData.find(s => s.id === schoolId);
-        const schoolIndex = schoolData.findIndex(s => s.id === schoolId) + 1;
 
         if (school) {
-            document.getElementById('detailContainer').innerHTML = `
-                <div class="glass-card p-10 md:p-16 rounded-[3rem] border border-slate-800 shadow-2xl">
-                    <div class="flex flex-col md:flex-row justify-between items-start gap-8 mb-12">
+            // Set school name in hidden field
+            document.getElementById('hiddenSchoolName').value = school.name;
+            
+            document.getElementById('schoolDetails').innerHTML = `
+                <div class="glass-card p-10 rounded-[3rem] border border-slate-800">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div>
-                            <span class="px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-[10px] font-black text-blue-400 uppercase tracking-widest">${school.board} Affiliated</span>
-                            <div class="flex items-center gap-4 mt-4">
-                                <div class="w-12 h-12 bg-slate-800 border border-slate-700 rounded-2xl flex items-center justify-center font-black text-lg text-slate-400">${schoolIndex}</div>
-                                <h1 class="text-4xl md:text-5xl font-black tracking-tighter italic">${school.name}</h1>
-                            </div>
-                            <p class="text-slate-500 font-bold mt-2 uppercase tracking-widest text-xs">Haldwani, Uttarakhand</p>
+                            <h2 class="text-5xl font-black italic uppercase tracking-tighter mb-2">${school.name}</h2>
+                            <p class="text-blue-400 text-xs font-black tracking-[0.3em] uppercase">${school.board} Education</p>
                         </div>
-                        <div class="md:text-right">
-                            <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Annual Fees</p>
-                            <p class="text-4xl font-black neon-text italic tracking-tighter">₹${school.fees.toLocaleString()}</p>
-                            <p class="text-[10px] font-bold text-slate-500 mt-1 italic uppercase">₹${Math.round(school.fees/12).toLocaleString()} / month est.</p>
+                        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700">
+                            <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Yearly Investment</p>
+                            <p class="text-3xl font-black text-emerald-400 italic">₹${school.fees.toLocaleString()}</p>
                         </div>
                     </div>
-
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-                        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50 text-center">
-                            <p class="text-[9px] font-black text-slate-500 uppercase mb-1">Students</p>
-                            <p class="text-xl font-black">${school.students}+</p>
-                        </div>
-                        <div class="bg-slate-800/50 p-6 rounded-3xl border border-slate-700/50 text-center">
-                            <p class="text-[9px] font-black text-slate-500 uppercase mb-1">Rating</p>
-                            <p class="text-xl font-black text-yellow-500">${school.rating} / 5</p>
-                        </div>
-                    </div>
-
-                    <div class="space-y-10">
-                        <div>
-                            <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">🏫 Available Facilities</h3>
-                            <div class="flex flex-wrap gap-3">
-                                ${school.facilities.map(f => `<span class="bg-slate-800 text-white px-5 py-2.5 rounded-2xl text-[11px] font-bold border border-slate-700">${f}</span>`).join('')}
-                            </div>
-                        </div>
-                    </div>
-
-                    <button onclick="openModal('${school.name}')" class="w-full mt-12 bg-white text-black py-5 rounded-3xl font-black text-xs uppercase tracking-[0.2em] hover:bg-blue-600 hover:text-white transition-all shadow-xl">Contact School Office</button>
                 </div>
             `;
         }
-        function openModal(n) { document.getElementById('enquiryModal').style.display='flex'; document.getElementById('modalSchoolName').innerText="Enquiry for " + n; }
-        function closeModal() { document.getElementById('enquiryModal').style.display='none'; }
-        function handleFormSubmit(e) { e.preventDefault(); alert("Enquiry sent for " + school.name); closeModal(); }
-        window.onclick = function(event) { if (event.target == document.getElementById('enquiryModal')) closeModal(); }
+
+        // Silent Form Submission with Formspree
+        const form = document.getElementById('enquiryForm');
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = "PROCESSING...";
+            btn.disabled = true;
+
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                // 🎊 Celebration Effect
+                confetti({
+                    particleCount: 150,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#2563eb', '#ffffff', '#4ade80']
+                });
+
+                // Show Success Modal
+                document.getElementById('successTxt').innerHTML = `Aapki enquiry <b>${school.name}</b> ke liye save ho gayi hai. Hum aapko call karenge.`;
+                document.getElementById('successModal').classList.remove('hidden');
+                
+                form.reset();
+            } else {
+                alert("Opps! Kuch error hai. Please try again.");
+                btn.disabled = false;
+                btn.innerHTML = "SUBMIT ENQUIRY NOW";
+            }
+        };
+
+        function closeModal() {
+            window.location.href = 'table.html';
+        }
     </script>
 </body>
 </html>
