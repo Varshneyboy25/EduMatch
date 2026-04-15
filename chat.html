@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduMatch | AI Agent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0b1120; color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; height: 100vh; display: flex; flex-direction: column; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .user-msg { background: rgba(37, 99, 235, 0.2); border: 1px solid rgba(37, 99, 235, 0.3); border-radius: 20px 20px 0 20px; }
+        .ai-msg { background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px 20px 20px 0; }
+    </style>
+</head>
+<body class="overflow-hidden">
+
+    <div class="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
+        <div class="flex items-center gap-4">
+            <a href="table.html" class="text-slate-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            </a>
+            <div>
+                <h1 class="text-xl font-black italic">EDU<span class="text-blue-500">BOT</span> <span class="text-[10px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded ml-2 uppercase tracking-widest">AI Agent</span></h1>
+            </div>
+        </div>
+        <button onclick="window.location.reload()" class="text-slate-500 hover:text-white text-xs font-bold uppercase">Clear Chat</button>
+    </div>
+
+    <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-6">
+        <div class="ai-msg p-5 max-w-[80%] shadow-xl">
+            <p class="text-sm leading-relaxed">Namaste! Main EduMatch ka AI Agent hoon. Mujhe Haldwani ke sabhi schools ke baare mein pata hai. Aap mujhse fees, rating, ya kisi bhi school ki details pooch sakte hain.</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+                <button onclick="quickQuery('Best school by rating?')" class="text-[10px] border border-slate-700 px-3 py-1.5 rounded-full hover:bg-slate-800 transition-all font-bold uppercase tracking-wider text-slate-400">Best Rating?</button>
+                <button onclick="quickQuery('Which school is cheapest?')" class="text-[10px] border border-slate-700 px-3 py-1.5 rounded-full hover:bg-slate-800 transition-all font-bold uppercase tracking-wider text-slate-400">Cheapest School?</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-6 bg-slate-900/80 border-t border-slate-800">
+        <div class="max-w-4xl mx-auto flex gap-4">
+            <input type="text" id="user-input" onkeypress="handleKey(event)" placeholder="Ask anything about schools..." class="flex-1 bg-slate-800 border border-slate-700 rounded-2xl px-6 py-4 text-white focus:ring-2 focus:ring-blue-500 outline-none font-medium">
+            <button onclick="askAI()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 rounded-2xl font-black transition-all shadow-lg shadow-blue-900/20">SEND</button>
+        </div>
+    </div>
+
+    <script src="schools.js"></script>
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+
+        function handleKey(e) { if(e.key === 'Enter') askAI(); }
+        
+        function quickQuery(text) {
+            document.getElementById('user-input').value = text;
+            askAI();
+        }
+
+        function askAI() {
+            const input = document.getElementById('user-input');
+            const query = input.value.trim();
+            if(!query) return;
+
+            // Add User Message
+            addMessage(query, 'user');
+            input.value = '';
+
+            // AI Processing
+            setTimeout(() => {
+                const response = getAIResponse(query.toLowerCase());
+                addMessage(response, 'ai');
+            }, 600);
+        }
+
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = sender === 'user' ? 'user-msg p-5 max-w-[80%] ml-auto shadow-xl' : 'ai-msg p-5 max-w-[80%] shadow-xl animate-in fade-in duration-500';
+            div.innerHTML = `<p class="text-sm leading-relaxed">${text}</p>`;
+            chatContainer.appendChild(div);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function getAIResponse(q) {
+            // Ranking Logic
+            const sortedByRating = [...schoolData].sort((a,b) => b.rating - a.rating);
+            const sortedByFees = [...schoolData].sort((a,b) => a.fees - b.fees);
+
+            // 1. Search for specific school
+            const school = schoolData.find(s => q.includes(s.name.toLowerCase()));
+            if(school) {
+                return `<b>${school.name}</b> ke baare mein ye rahi jankari:<br><br>
+                        • <b>Fees:</b> ₹${school.fees.toLocaleString()} (Annual)<br>
+                        • <b>Board:</b> ${school.board}<br>
+                        • <b>Rating:</b> ${school.rating}/5<br><br>
+                        <a href="details.html?id=${school.id}" class="inline-block mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase">View Full Details</a>`;
+            }
+
+            // 2. Best School (Rank 1)
+            if(q.includes('best') || q.includes('top') || q.includes('rank')) {
+                const top = sortedByRating[0];
+                return `Haldwani mein rating ke hisaab se <b>${top.name}</b> Top Rank par hai (Rating: ${top.rating}/5).<br><br>
+                        <a href="details.html?id=${top.id}" class="text-blue-400 font-bold underline">Click here to see why it's best.</a>`;
+            }
+
+            // 3. Cheapest
+            if(q.includes('cheap') || q.includes('sasta') || q.includes('low fees')) {
+                const cheap = sortedByFees[0];
+                return `Sabse budget-friendly school <b>${cheap.name}</b> hai jiski annual fees ₹${cheap.fees.toLocaleString()} hai.<br><br>
+                        <a href="details.html?id=${cheap.id}" class="text-blue-400 font-bold underline">Check Fee Structure</a>`;
+            }
+
+            // 4. General Help
+            return "Mujhe Haldwani ke sabhi schools ki rank, fees aur details pata hain. Aap kisi school ka naam likhiye ya poochiye 'Top school kaunsa hai?'";
+        }
+    </script>
+</body>
+</html>
