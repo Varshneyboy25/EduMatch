@@ -3,92 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduMatch | Find Your Perfect School</title>
+    <title>EduMatch Haldwani | AI School Finder</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* Table jaisa dark theme */
-        body { 
-            background-color: #0b1120; 
-            color: #ffffff; 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-        }
-        .glass-card { 
-            background: rgba(30, 41, 59, 0.7); 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-        }
-        .input-dark { 
-            background: #1e293b; 
-            border: 1px solid #334155; 
-            color: white; 
-        }
+        body { background-color: #0b1120; color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+        .glass { background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .hero-gradient {
-            background: radial-gradient(circle at top, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.15), transparent),
+                        radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.15), transparent);
         }
+        .bot-shadow { box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.5); }
+        
+        /* Custom Scrollbar for Chat */
+        #chatBody::-webkit-scrollbar { width: 4px; }
+        #chatBody::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
     </style>
 </head>
-<body class="min-h-screen hero-gradient">
+<body class="hero-gradient min-h-screen">
 
     <nav class="p-6 flex justify-between items-center max-w-7xl mx-auto">
-        <div class="flex items-center gap-3">
-            <div class="bg-blue-600 p-2 rounded-xl text-white font-black text-xl shadow-lg shadow-blue-900/40">E</div>
-            <h1 class="text-2xl font-black italic tracking-tighter uppercase tracking-widest">EduMatch</h1>
+        <div class="text-2xl font-black italic tracking-tighter text-white">
+            EDU<span class="text-blue-500">MATCH</span>
         </div>
-        <a href="table.html" class="bg-slate-800 text-white px-5 py-2.5 rounded-xl text-[10px] font-black border border-slate-700 uppercase tracking-widest hover:bg-blue-600 transition-all">
-            View Master Table
+        <a href="tel:9259576073" class="glass px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all">
+            Support: +91 9259576073
         </a>
     </nav>
 
-    <main class="max-w-4xl mx-auto px-6 pt-20 pb-20 text-center">
+    <main class="max-w-7xl mx-auto px-6 pt-16 pb-24 flex flex-col items-center text-center">
         
-        <div class="mb-12">
-            <h2 class="text-5xl md:text-7xl font-black leading-tight tracking-tighter">
-                Find the best school <br> 
-                <span class="text-blue-500 italic">within your budget, easily.</span>
-            </h2>
-            <p class="text-slate-400 mt-6 text-lg font-medium">Helping parents in Haldwani make the right choice for their child's future.</p>
+        <div class="bg-blue-500/10 border border-blue-500/20 px-4 py-2 rounded-full mb-8 animate-pulse">
+            <span class="text-blue-400 text-[10px] font-black uppercase tracking-widest">Haldwani's First AI-Powered Portal</span>
         </div>
 
-        <div class="glass-card p-10 rounded-[3rem] shadow-2xl border border-slate-800/50 text-left max-w-2xl mx-auto">
-            <div class="space-y-6">
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Country</label>
-                        <div class="input-dark px-5 py-4 rounded-2xl font-bold opacity-60">India</div>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">City</label>
-                        <div class="input-dark px-5 py-4 rounded-2xl font-bold opacity-60">Haldwani</div>
-                    </div>
-                </div>
+        <h1 class="text-5xl md:text-8xl font-black italic uppercase tracking-tighter mb-8 leading-tight">
+            FIND THE <span class="text-blue-500">PERFECT</span> <br> SCHOOL FOR YOUR CHILD
+        </h1>
 
-                <div>
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Area Pincode</label>
-                    <input type="text" placeholder="263139" class="input-dark w-full px-5 py-4 rounded-2xl font-bold focus:ring-2 focus:ring-blue-500/50 outline-none transition-all">
-                </div>
+        <p class="text-slate-400 max-w-2xl text-sm md:text-lg mb-12 font-medium">
+            Haldwani ke sabhi top schools ki fees, location aur details ab ek hi jagah. 
+            AI Bot se poochhein aur sahi faisla lein.
+        </p>
 
-                <button onclick="window.location.href='table.html'" class="w-full bg-blue-600 hover:bg-blue-700 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-blue-900/40 transition-all active:scale-95">
-                    Search Now
-                </button>
-            </div>
+        <div class="flex flex-col md:flex-row gap-4 w-full max-w-xl">
+            <a href="table.html" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-3xl text-sm uppercase tracking-widest transition-all shadow-2xl shadow-blue-900/40">
+                Explore All Schools 🚀
+            </a>
+            <button onclick="toggleBot()" class="bg-slate-800 hover:bg-slate-700 text-white font-black py-5 px-10 rounded-3xl text-sm uppercase tracking-widest transition-all border border-slate-700">
+                Talk to AI Bot 🤖
+            </button>
         </div>
 
-        <div class="mt-16 flex justify-center gap-12 text-[10px] font-black uppercase tracking-widest text-slate-500">
-            <div class="flex flex-col gap-1">
-                <span class="text-white text-2xl font-black">50+</span>
-                <span>Schools</span>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-24 w-full max-w-5xl">
+            <div class="glass p-8 rounded-[2.5rem]">
+                <p class="text-3xl font-black italic">50+</p>
+                <p class="text-[9px] text-slate-500 font-black uppercase tracking-widest mt-2">Verified Schools</p>
             </div>
-            <div class="flex flex-col gap-1">
-                <span class="text-white text-2xl font-black">10k+</span>
-                <span>Students</span>
+            <div class="glass p-8 rounded-[2.5rem]">
+                <p class="text-3xl font-black italic">FREE</p>
+                <p class="text-[9px] text-slate-500 font-black uppercase tracking-widest mt-2">No Consultancy Fee</p>
             </div>
-            <div class="flex flex-col gap-1">
-                <span class="text-white text-2xl font-black">Verified</span>
-                <span>Data</span>
+            <div class="glass p-8 rounded-[2.5rem]">
+                <p class="text-3xl font-black italic">AI</p>
+                <p class="text-[9px] text-slate-500 font-black uppercase tracking-widest mt-2">Smart Matching</p>
+            </div>
+            <div class="glass p-8 rounded-[2.5rem]">
+                <p class="text-3xl font-black italic">2026</p>
+                <p class="text-[9px] text-slate-500 font-black uppercase tracking-widest mt-2">Latest Session</p>
             </div>
         </div>
     </main>
 
+    <div id="aiBotWindow" class="fixed bottom-6 right-6 w-[90%] md:w-[400px] h-[550px] glass rounded-[2.5rem] shadow-2xl z-[1000] hidden flex flex-col overflow-hidden border border-blue-500/30 bot-shadow">
+        <div class="bg-blue-600 p-6 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-lg">🤖</div>
+                <div>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-white leading-none">EduMatch AI</p>
+                    <p class="text-[8px] text-blue-200 font-bold uppercase mt-1">Smart Consultant</p>
+                </div>
+            </div>
+            <button onclick="toggleBot()" class="text-white hover:bg-blue-500 p-2 rounded-xl transition-all">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+
+        <div id="chatBody" class="flex-1 p-6 overflow-y-auto space-y-4 bg-slate-900/50">
+            <div class="bg-slate-800 p-4 rounded-3xl rounded-tl-none text-[13px] font-medium leading-relaxed border border-white/5">
+                Namaste! Main EduMatch AI hoon. Main Haldwani ke sabhi schools ki fees aur details janta hoon. <br><br>
+                Aap mujhse kuch bhi pooch sakte hain, jaise: <br>
+                <b>"Best schools dikhao"</b> ya <br>
+                <b>"Lowest fees wale school?"</b>
+            </div>
+        </div>
+
+        <div class="p-4 bg-slate-900 border-t border-white/5 flex gap-2">
+            <input type="text" id="userInput" onkeypress="if(event.key === 'Enter') handleChat()" placeholder="Type your question..." class="flex-1 bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 text-sm focus:outline-none focus:border-blue-500 text-white font-medium">
+            <button onclick="handleChat()" class="bg-blue-600 hover:bg-blue-500 px-5 py-4 rounded-2xl transition-all shadow-lg shadow-blue-900/40">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <script src="schools.js"></script>
+    <script>
+        function toggleBot() {
+            const bot = document.getElementById('aiBotWindow');
+            bot.classList.toggle('hidden');
+        }
+
+        function handleChat() {
+            const input = document.getElementById('userInput');
+            const chatBody = document.getElementById('chatBody');
+            const userMsg = input.value.trim();
+            
+            if (!userMsg) return;
+
+            // Display User Message
+            chatBody.innerHTML += `
+                <div class="bg-blue-600 ml-auto p-4 rounded-3xl rounded-tr-none text-[13px] font-semibold max-w-[85%] shadow-lg">
+                    ${userMsg}
+                </div>
+            `;
+            
+            const query = userMsg.toLowerCase();
+            input.value = "";
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // Simple AI Logic based on schools.js data
+            setTimeout(() => {
+                let botRes = "Maaf kijiye, mujhe Haldwani mein aisa koi school nahi mila. Aap 9259576073 par call karke pooch sakte hain!";
+
+                if (query.includes("best") || query.includes("top") || query.includes("rating")) {
+                    const top = [...schoolData].sort((a,b) => b.rating - a.rating).slice(0,3);
+                    botRes = "Haldwani ke Top-3 Schools (Rating ke hisaab se): <br><br>" + 
+                             top.map(s => `⭐ <b>${s.name}</b> (Rating: ${s.rating})`).join("<br>");
+                } 
+                else if (query.includes("fee") || query.includes("sasta") || query.includes("budget") || query.includes("paisa")) {
+                    const cheap = [...schoolData].sort((a,b) => a.fees - b.fees).slice(0,3);
+                    botRes = "Haldwani ke sabse kam fees wale top 3 schools ye hain: <br><br>" + 
+                             cheap.map(s => `💰 <b>${s.name}</b> (Fees: ₹${s.fees})`).join("<br>");
+                }
+                else if (query.includes("cbse")) {
+                    const cbse = schoolData.filter(s => s.board === "CBSE").slice(0,3);
+                    botRes = "Ye rahe Haldwani ke kuch bade CBSE schools: <br><br>" + 
+                             cbse.map(s => `🏫 <b>${s.name}</b>`).join("<br>");
+                }
+                else if (query.includes("hi") || query.includes("hello") || query.includes("namaste")) {
+                    botRes = "Hello! Main aapki help kaise kar sakta hoon? Mujhse kisi bhi school ki fees ya ranking ke baare mein poochein.";
+                }
+
+                chatBody.innerHTML += `
+                    <div class="bg-slate-800 p-4 rounded-3xl rounded-tl-none text-[13px] font-medium leading-relaxed border border-white/5 animate-fade-in">
+                        ${botRes}
+                    </div>
+                `;
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 600);
+        }
+    </script>
 </body>
 </html>
